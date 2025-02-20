@@ -1,1 +1,0 @@
-# aora-react-native-app
