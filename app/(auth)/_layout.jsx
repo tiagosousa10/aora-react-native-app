@@ -4,6 +4,7 @@ import { Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 
 const AuthLayout = () => {
+  //7.54
   return (
     <>
     <Stack>

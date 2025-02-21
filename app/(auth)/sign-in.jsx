@@ -1,7 +1,6 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { ScrollView } from 'react-native-web'
 import { images } from '../../constants'
 import FormField from '../../components/FormField'
 
@@ -26,17 +25,18 @@ const SignIn = () => {
             Log in to Aora
           </Text>
 
-          <FormField 
+          <FormField
             title="Email"
             value={form.email}
-            handleChangeText = {(e) => setForm({...form,email:e})}
+            handleChangeText={(e) => setForm({ ...form, email: e })}
             otherStyles="mt-7"
             keyboardType="email-address"
           />
-          <FormField 
+
+          <FormField
             title="Password"
             value={form.password}
-            handleChangeText = {(e) => setForm({...form,password:e})}
+            handleChangeText={(e) => setForm({ ...form, password: e })}
             otherStyles="mt-7"
           />
 
@@ -46,6 +46,6 @@ const SignIn = () => {
   )
 }
 
-export default SignIn
+export default SignIn;
 
 const styles = StyleSheet.create({})
