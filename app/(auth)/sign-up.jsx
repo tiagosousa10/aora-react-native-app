@@ -16,32 +16,27 @@ const SignUp = () => {
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const {setUser, setIsLoggedIn} = useGlobalContext()
+  const {setUser, setIsLogged} = useGlobalContext()
 
 
   const submit = async () => {
-    if(!form.username || !form.email || !form.password) {
-      Alert.alert('Error', 'All fields are required')
+    if (form.username === "" || form.email === "" || form.password === "") {
+      Alert.alert("Error", "Please fill in all fields");
     }
 
-    setIsSubmitting(true)
-
+    setIsSubmitting(true);
     try {
-      const result = await createUser(form.email,form.password,form.username);
-      setUser(result)
-      setIsLoggedIn(true)
-      
+      const result = await createUser(form.email, form.password, form.username);
+      setUser(result);
+      setIsLogged(true);
 
-      router.replace('/home')
-
-    } catch(error) {
-      Alert.alert('Error', error.message);
-
+      router.replace("/home");
+    } catch (error) {
+      Alert.alert("Error", error.message);
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-
-  }
+  };
 
   return (
     <SafeAreaView className="bg-primary h-full">
