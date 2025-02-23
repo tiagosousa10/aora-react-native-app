@@ -31,7 +31,8 @@ const zoomOut = {
 const TrendingItem = ({ activeItem, item }) => {
   const [play, setPlay] = useState(false);
   
-  const player = useVideoPlayer(play ? item.video : null, player => {
+  const videoURL = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'
+  const player = useVideoPlayer(play ? videoURL : null, player => {
     if (play) {
       player.play();
     }
@@ -62,7 +63,7 @@ const TrendingItem = ({ activeItem, item }) => {
               backgroundColor: 'rgba(255, 255, 255, 0.1)'
             }}
             contentFit="cover"
-            nativeControls={false}
+            nativeControls={true}
             onEnd={() => {
               setPlay(false);
               player?.pause();

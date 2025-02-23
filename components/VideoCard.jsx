@@ -1,9 +1,19 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { icons } from '../constants'
+import { ResizeMode, Video } from 'expo-av'
+import { useVideoPlayer, VideoView } from 'expo-video'
 
 const VideoCard = ({video: {title, thumbnail, video, creator : {username, avatar} }}) => {
    const [play, setPlay] = useState(false)
+   
+   const videoURL = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'
+
+   const player = useVideoPlayer(play ? videoURL : null, player => {
+      if (play) {
+        player.play();
+      }
+    });
   return (
     <View className="flex-col items-center px-4 mb-14">
       <View className="flex-row gap-3 items-start">
@@ -36,7 +46,24 @@ const VideoCard = ({video: {title, thumbnail, video, creator : {username, avatar
 
       </View>
       {play ? (
-         <Text className="text-white">Playing</Text>
+         <View className="w-full h-60 rounded-xl mt-3">
+            <VideoView
+            player={player}
+            style={{
+              width: '100%',
+              height: '100%',
+              borderRadius: 35,
+              backgroundColor: 'rgba(255, 255, 255, 0.1)'
+            }}
+            contentFit="cover"
+            nativeControls={true}
+            onEnd={() => {
+              setPlay(false);
+              player?.pause();
+            }}
+          />
+         </View>
+         
 
       ) : (
          <TouchableOpacity
