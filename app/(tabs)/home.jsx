@@ -1,5 +1,5 @@
-import React from 'react'
-import {  FlatList, Image, Text, View } from 'react-native'
+import React, { useState } from 'react'
+import {  FlatList, Image, RefreshControl, Text, View } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 
 import {images} from '../../constants'
@@ -15,10 +15,18 @@ const books = [
 
 
 const Home = () => {
+  const [refreshing,setRefreshing] = useState(false)
+
+  const onRefresh = () => {
+    setRefreshing(true)
+    // re call videos -> if any videos appeard
+    setRefreshing(false)
+  }
+
   return (
       <SafeAreaView className="bg-primary h-full">
       <FlatList      
-        data={[]}
+        data={books}
         keyExtractor={item => item.id.toString()}
         renderItem={({item}) => (
           <Text className="text-3xl text-white"  >{item.name}</Text>
@@ -60,6 +68,7 @@ const Home = () => {
             subtitle="Be the first one to create a video"
           />
         )}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
       />
     </SafeAreaView>
   )
