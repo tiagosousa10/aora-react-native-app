@@ -10,6 +10,7 @@ import CustomButton from '../../components/CustomButton'
 import { icons } from '../../constants'
 import { createVideo } from '../../lib/appwrite'
 import { useGlobalContext } from '../../context/GlobalProvider'
+import { router } from 'expo-router'
 
 const Create = () => {
   const {user} = useGlobalContext()
