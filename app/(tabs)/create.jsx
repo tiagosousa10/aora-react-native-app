@@ -1,9 +1,14 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
+import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import FormField from '../../components/FormField'
 import { ResizeMode, Video } from 'expo-av'
+import * as DocumentPicker from 'expo-document-picker'
+
+import FormField from '../../components/FormField'
+import CustomButton from '../../components/CustomButton'
+
 import { icons } from '../../constants'
+
 
 const Create = () => {
   const [uploading,setUploading] =useState(false)
@@ -13,6 +18,54 @@ const Create = () => {
     thumbnail:null,
     prompt:'',
   })
+
+  const openPicker = async(selectType) => {
+    const result = await DocumentPicker.getDocumentAsync({ // open file picker
+      type: selectType === 'image' 
+        ? ['image/png', 'image/jpg'] 
+        : ['video/mp4', 'video/gif'],
+    })
+
+    if(!result.canceled) {
+      if(selectType === 'image') {
+        setForm({...form, thumbnail: result.assets[0]}) // set thumbnail
+      }
+      if(selectType === 'video') {
+        setForm({...form, video: result.assets[0]}) // set thumbnail
+      }
+
+     } else {
+      setTimeout(() => {
+        Alert.alert('Document picked', JSON.stringify(result, null, 2)) 
+      },100)
+     }
+  }
+
+  const submit = () => {
+    if(!form.prompt || !form.title || !form.thumbnail || !form.video) {
+      return Alert.alert('Please fill in all fields')
+    }
+
+    setUploading(true)
+
+    try {
+
+      
+
+      Alert.alert('Success', 'Post uploaded successfully')
+      router.push('/home')
+    } catch(error) {
+      Alert.alert('Error', error.message)
+    } finally {
+      setForm({
+        title: '',
+        video: null,
+        thumbnail: null,
+        prompt: '',
+      })
+      setUploading(false)
+    }
+  }
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -32,7 +85,7 @@ const Create = () => {
           Upload Video
         </Text>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => openPicker('video')}>
           {form.video ? (
             <Video
               source={{uri : form.video.uri}}
@@ -62,7 +115,7 @@ const Create = () => {
             Thumbnail Image
         </Text>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => openPicker('image')}>
           {form.thumbnail ? (
             <Image 
               source={{uri : form.thumbnail.uri}} 
@@ -91,7 +144,12 @@ const Create = () => {
         handleChangeText={(e) => setForm({...form, prompt: e})}
         otherStyles="mt-7"
       />
-
+      <CustomButton
+        title="Submit & Publish"
+        handlePress={submit}
+        containerStyles={"mt-7"}
+        isLoading={uploading}
+      />
       </ScrollView>
     </SafeAreaView>
   )
