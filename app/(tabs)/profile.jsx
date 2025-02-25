@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react'
 import {  FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
 import {  SafeAreaView } from 'react-native-safe-area-context'
+import { router } from 'expo-router'
 
-import SearchInput from '../../components/SearchInput'
 import EmptyState from '../../components/EmptyState'
 import VideoCard from '../../components/VideoCard'
+import InfoBox from '../../components/InfoBox'
 
 import { getUserPosts, signOut} from '../../lib/appwrite'
 import useAppwrite from '../../lib/useAppwrite'
+
 import { useGlobalContext } from '../../context/GlobalProvider'
 import { icons } from '../../constants'
-import InfoBox from '../../components/InfoBox'
-import { router } from 'expo-router'
 
 const Profile = () => {
   const {user, setUser, setIsLogged} = useGlobalContext()
